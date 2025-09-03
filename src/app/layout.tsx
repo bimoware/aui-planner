@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Raleway } from "next/font/google";
+import { Nunito } from "next/font/google";
 import { ReactNode } from "react";
 
 import "@/style/main.css"
-const font = Raleway({
-  variable: "--font-raleway",
+const font = Nunito({
+  variable: "--font-nunito",
   subsets: ["latin"],
 });
 
