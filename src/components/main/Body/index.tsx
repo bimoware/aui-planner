@@ -16,7 +16,9 @@ export type SectionsHookGroup = {
 }
 
 export default function Body() {
-    const [sections, setSections] = useState<Section[]>(TEMPLATE_SECTIONS)
+    const [sections, setSections] = useState<Section[]>([]
+        // TEMPLATE_SECTIONS
+    )
     const [inputData, setInputData] = useState<Section>(EMPTY_SECTION)
 
     return <div className="size-full p-3
