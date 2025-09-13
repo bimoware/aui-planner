@@ -1,8 +1,7 @@
-import { Button } from "@/components/animate-ui/components/buttons/button";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function SmallCredit() {
+export function SmallCredit() {
     return <div className="flex gap-2 items-center">
         <span>Made with ❤️ by</span>
         <Link href={"https://github.com/bimoware/aui-planner"} target="_blank"

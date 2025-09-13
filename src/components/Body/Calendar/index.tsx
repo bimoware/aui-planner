@@ -1,5 +1,10 @@
 import { Meeting } from "@/lib/main";
-import { InputDataHookGroup, SectionsHookGroup } from "..";
+import { SectionsHookGroup } from "..";
+
+const padding = 0.3
+const leftPadding = 0.3
+const columnWidth = 1.5
+const rowHeight = 0.8
 
 export function getMiddlePoints(start: number, end: number, n: number) {
     const step = (end - start) / (n + 1);
@@ -13,11 +18,6 @@ export default function Calendar({ sections, setSections }: SectionsHookGroup) {
     </div>
     const minStartH = Math.min(...sections.map(s => s.start.split(':')[0]).map(Number)) - 1
     const maxEndH = Math.max(...sections.map(s => s.end.split(':')[0]).map(Number)) + 1
-
-    const padding = 0.3
-    const leftPadding = 0.3
-    const columnWidth = 1.5
-    const rowHeight = 0.8
 
     const width = padding + leftPadding + columnWidth * 5 + padding
     const height = padding + rowHeight * (maxEndH - minStartH) + padding
