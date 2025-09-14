@@ -1,7 +1,7 @@
 {
   "name": "aui-planner",
   "version": "1.0.1",
-  "private": true,
+  "private": false,
   "repository": {
     "url": "https://github.com/bimoware/aui-planner"
   },
