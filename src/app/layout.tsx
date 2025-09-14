@@ -10,6 +10,10 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   title: "Malik's AUI Planner",
   description: "Powerful calendar maker for AUI Students looking to spot possible overlaps, try out different section combinations, or simply visualize a possible schedule. Also allows for exporting to Google Calendar",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
+  openGraph: {
+    images: "/calendar.png"
+  }
 };
 
 export default function RootLayout({
