@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export function SmallCredit() {
-    return <div className="flex gap-2 items-center">
+    return <div className="flex gap-2 items-center justify-center">
         <span>Made with ❤️ by</span>
         <Link href={"https://github.com/bimoware/aui-planner"} target="_blank"
             className="hover:underline hover:cursor-pointer">
@@ -10,7 +10,7 @@ export function SmallCredit() {
             hover:scale-105 hover:-translate-y-1 duration-100">
                 <Image src="/pfp.jpg" width={50} height={50} alt=""
                     className="rounded-full inline h-lh w-auto select-none" />
-                Malik Lahlou
+                Malik
             </div>
         </Link>
     </div>

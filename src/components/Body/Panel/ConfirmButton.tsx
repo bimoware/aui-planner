@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
-import { InputDataHookGroup, SectionsHookGroup } from ".."
 import { Button } from "@/components/animate-ui/components/buttons/button"
-import { EMPTY_SECTION } from "@/lib/main"
+import { EMPTY_SECTION } from "@/app/page"
 import { ArrowRight } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/animate-ui/components/animate/tooltip"
+import { InputDataHookGroup, SectionsHookGroup } from "@/app/page"
+import { PopoverClose } from "@/components/animate-ui/primitives/radix/popover"
 
-export function ConfirmButton({ inputData, setInputData, setSections }: InputDataHookGroup & SectionsHookGroup) {
+export function ConfirmButton({ inputData, setInputData, sections, setSections }: InputDataHookGroup & SectionsHookGroup) {
 
     const getTimeErrors = () => {
         const startErrors = []
@@ -53,14 +54,20 @@ export function ConfirmButton({ inputData, setInputData, setSections }: InputDat
     const [errors, setErrors] = useState<string[]>([])
     useEffect(() => { setErrors(getAllErrors()) }, [inputData])
 
-    const button = <Button className="cursor-pointer aspect-square" disabled={errors.length > 0}
+    const button = <PopoverClose disabled={errors.length > 0}
+        className="cursor-pointer
+        bg-primary text-secondary
+        h-full rounded-lg p-1.5
+        duration-100 active:scale-95 hover:scale-110"
         onClick={(() => {
             if (errors.length) return;
-            setSections(prev => ([...prev, inputData]))
+            const newId = Math.max(...sections.map(s => s.id)) + 1
+            const newInputData = { ...inputData, id: newId }
+            setSections(prev => ([...prev, newInputData]))
             setInputData(EMPTY_SECTION)
         })}>
         <ArrowRight />
-    </Button>
+    </PopoverClose>;
 
     return !errors.length ? button : <TooltipProvider>
         <Tooltip>
