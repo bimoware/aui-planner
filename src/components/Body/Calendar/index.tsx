@@ -50,18 +50,9 @@ export default function Calendar({ sections, selectedSectionId: hoveredSectionId
 
     const isSectionHovered = hoveredSectionId != undefined
 
-    return <div className="w-2/3 h-full">
-        <svg viewBox={`0 0 ${width} ${height}`}>
-            {/* <g id="debug-points">
-                {
-                    [
-                        [0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5]
-                    ].map(([x, y]) => {
-                        const coor = getCoor(x, y)
-                        return <circle key={coor.x} cx={coor.x} cy={coor.y} r={0.05} fill="red" />
-                    })
-                }
-            </g> */}
+    return <div className="w-full flex">
+        <div className="hidden md:block md:w-2/5"></div>
+        <svg viewBox={`0 0 ${width} ${height}`} className="md:w-3/5 md:pl-6">
             <g id="v-lines" opacity={0.5}>
                 {
                     // The 4 lines separating the 5 work days (the vertical lines)
