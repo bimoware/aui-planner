@@ -1,5 +1,5 @@
-import { Meeting } from "@/lib/main";
-import { SectionsHookGroup } from "..";
+import { getPseudoRandomColor, SelectedSectionIdGroup, SectionsHookGroup } from "@/app/page";
+import { Meeting } from "@/app/page";
 
 const padding = 0.3
 const leftPadding = 0.3
@@ -11,7 +11,7 @@ export function getMiddlePoints(start: number, end: number, n: number) {
     return Array.from({ length: n }, (_, i) => start + step * (i + 1));
 }
 
-export default function Calendar({ sections, setSections }: SectionsHookGroup) {
+export default function Calendar({ sections, selectedSectionId: hoveredSectionId }: SectionsHookGroup & SelectedSectionIdGroup) {
 
     if (!sections.length) return <div className="flex items-center justify-center w-full h-full">
         Start by adding a section
@@ -48,6 +48,8 @@ export default function Calendar({ sections, setSections }: SectionsHookGroup) {
         }
     }
 
+    const isSectionHovered = hoveredSectionId != undefined
+
     return <div className="w-2/3 h-full">
         <svg viewBox={`0 0 ${width} ${height}`}>
             {/* <g id="debug-points">
@@ -75,7 +77,7 @@ export default function Calendar({ sections, setSections }: SectionsHookGroup) {
                         })
                 }
             </g>
-            <g id="h-lines">
+            <g id="h-lines+labels+mid-h-lines">
                 {
                     // All hours around the times (the horizental lines)
                     getMiddlePoints(minStartH, maxEndH, maxEndH - minStartH - 1)
@@ -83,8 +85,8 @@ export default function Calendar({ sections, setSections }: SectionsHookGroup) {
                             const y = padding + rowHeight * (id - minStartH)
                             return <g key={id}>
                                 <line
-                                    opacity={0.5}
                                     {...strokeProps}
+                                    opacity={0.5}
                                     x1={padding + leftPadding}
                                     x2={width - padding}
                                     y1={y}
@@ -99,6 +101,15 @@ export default function Calendar({ sections, setSections }: SectionsHookGroup) {
                                 >
                                     {id}:00
                                 </text>
+                                <line
+                                    {...strokeProps}
+                                    strokeWidth={strokeProps.strokeWidth / 2}
+                                    opacity={0.2}
+                                    x1={padding + leftPadding - columnWidth / 8}
+                                    x2={width - padding + columnWidth / 8}
+                                    y1={y + rowHeight / 2}
+                                    y2={y + rowHeight / 2}
+                                />
                             </g>
                         })
 
@@ -125,6 +136,7 @@ export default function Calendar({ sections, setSections }: SectionsHookGroup) {
                 {
                     // The actual elements (the rectangles with text)
                     meetings.map((e, i) => {
+                        const isThisSectionHovered = isSectionHovered && hoveredSectionId === e.id
                         const dayIndex = "MTWRF".indexOf(e.day)
                         if (dayIndex === -1) return null;
                         const { x } = getCoor(dayIndex, 0)
@@ -136,27 +148,30 @@ export default function Calendar({ sections, setSections }: SectionsHookGroup) {
                         const yEnd = padding + rowHeight * (endH + endM / 60 - minStartH)
                         const y = yStart
                         const elemHeight = yEnd - yStart
-                        return <g key={i}>
+                        return <g key={i}
+                            opacity={!isSectionHovered || isThisSectionHovered ? 1 : 0.2}>
                             <rect
                                 {...strokeProps}
-                                opacity={1}
+                                {...(
+                                    isThisSectionHovered
+                                        ? { fill: getPseudoRandomColor(e.id,{ darkness: "5%" }) }
+                                        : {}
+                                )}
                                 strokeWidth={1 / 40}
                                 strokeOpacity={0.5}
-                                fillOpacity={0.9}
+                                fillOpacity={1}
                                 x={x + 1 / 20}
                                 y={y}
                                 width={columnWidth - 2 / 20}
                                 height={elemHeight}
                                 rx={0.1}
                                 ry={0.1}
-                                filter="url(#shadow)"
                             />
                             <text
                                 {...textProps}
                                 x={x + columnWidth / 2}
                                 y={y + elemHeight / 2}
                                 fill="white"
-
                             >
                                 {e.code}
                             </text>
@@ -165,5 +180,5 @@ export default function Calendar({ sections, setSections }: SectionsHookGroup) {
                 }
             </g>
         </svg>
-    </div>
+    </div >
 }
