@@ -110,6 +110,7 @@ export const TEMPLATE_SECTIONS = [
   }
 ].map((e, i) => ({ ...e, id: i })) as Section[]
 
+// TODO: Make better color picker (not colorblind-friendly for now, hard to see)
 export function getPseudoRandomColor(id: Section["id"], opts?: {
   opacity?: string,
   darkness?: string
