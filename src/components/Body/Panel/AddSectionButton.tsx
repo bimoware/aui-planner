@@ -4,13 +4,13 @@ import { Input } from "@/components/ui/input";
 import { WeekDaysInputs } from "./WeekDaysInputs";
 import { TimeInputs } from "./TimeInputs";
 import { ExtraSeparator } from "./ExtraSeparator";
-import { InputDataHookGroup, SectionsHookGroup } from "..";
+import { InputDataHookGroup, SectionsHookGroup } from "@/app/page";
 
 export function AddSectionButton({ inputData, setInputData, sections, setSections }: InputDataHookGroup & SectionsHookGroup) {
     return <Popover>
-        <PopoverTrigger className="bg-primary text-primary-foreground p-2 px-3 rounded-lg font-semibold w-fit
-                flex cursor-pointer">
-            <Plus className="h-lh" /> Section
+        <PopoverTrigger className="font-semibold w-fit flex cursor-pointer
+        bg-primary text-secondary px-2 p-1 rounded-lg hover:scale-105 duration-100 active:scale-90">
+            <Plus className="h-lh" /> Add Section
         </PopoverTrigger>
         <PopoverContent className="mx-3 flex flex-col gap-2 w-72">
             <Input placeholder="Code (i.e CSC 1401)" value={inputData.code}
@@ -19,7 +19,7 @@ export function AddSectionButton({ inputData, setInputData, sections, setSection
             <TimeInputs {...{ inputData, setInputData, sections, setSections }} />
 
             {/* Extra */}
-            <ExtraSeparator/>
+            <ExtraSeparator />
             <Input placeholder="Name (i.e Data Structures)"
                 value={inputData.name}
                 onChange={e => setInputData(prev => ({ ...prev, name: e.target.value }))} />
@@ -31,6 +31,9 @@ export function AddSectionButton({ inputData, setInputData, sections, setSection
                     value={inputData.location}
                     onChange={e => setInputData(prev => ({ ...prev, location: e.target.value }))} />
             </div>
+            <Input placeholder="Notes"
+                value={inputData.notes}
+                onChange={e => setInputData(prev => ({ ...prev, notes: e.target.value }))} />
         </PopoverContent>
     </Popover>
 }
