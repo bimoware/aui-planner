@@ -3,11 +3,13 @@ import CalendarIcon from "../../icons/CalendarIcon";
 import { CctvIcon } from "@/components/animate-ui/icons/cctv";
 
 export function Title() {
-    return <h1 className="inline-flex gap-3 w-full justify-center relative">
-        <CalendarIcon />
-        Malik's AUI Planner
-        <BetaBadge />
-    </h1>
+    return <div className="inline-flex justify-center items-center">
+        <h1 className="inline-flex gap-3 relative">
+            <CalendarIcon />
+            Malik's AUI Planner
+            <BetaBadge />
+        </h1>
+    </div>
 }
 
 function BetaBadge() {
@@ -17,7 +19,7 @@ function BetaBadge() {
     rotate-6
     select-none hover:scale-110 duration-100
     flex gap-2">
-        <CctvIcon animateOnHover className="h-lh"/>
+        <CctvIcon animateOnHover className="h-lh" />
         BETA
     </div>
 }
