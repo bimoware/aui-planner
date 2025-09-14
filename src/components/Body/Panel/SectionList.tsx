@@ -26,22 +26,18 @@ function copyJSON(section: Section) {
 }
 
 //TODO: Add tags (being able to create tags, color them, have icons on them, select them when creating a section, while making it still minimal)
-export function SectionList({ sections, setSections, selectedSectionId: hoveredSectionId, setSelectedSectionId: setHoveredSectionId }: SectionsHookGroup & SelectedSectionIdGroup) {
-    return sections.map(s => <ContextMenu key={s.code}>
+export function SectionList({ sections, setSections, selectedSectionId, setSelectedSectionId }: SectionsHookGroup & SelectedSectionIdGroup) {
+    return sections.map(s => <ContextMenu key={s.id}>
         <ContextMenuTrigger
             className="p-1"
-            onClick={() => setHoveredSectionId(s.id)}
+            onClick={() => setSelectedSectionId(prev => typeof (prev) === "number" && prev === s.id ? undefined : s.id)}
         >
             <Accordion type="multiple">
                 <AccordionItem value={s.code}
                     className="rounded-lg text-nowrap space-x-2 items-center space-y-2
                 duration-150 border"
-                    {...(
-                        hoveredSectionId === s.id && {
-                            style: {
-                                backgroundColor: getPseudoRandomColor(s.id, { darkness: "5%" })
-                            }
-                        })}>
+                    style={{ backgroundColor: getPseudoRandomColor(s.id, { darkness: "5%" }) }}
+                >
                     <AccordionTrigger className="py-0.5 p-2">
                         <div className="inline-flex gap-1 items-center">
                             <div className="inline-flex items-center">

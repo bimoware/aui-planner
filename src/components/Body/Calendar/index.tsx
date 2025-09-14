@@ -152,11 +152,7 @@ export default function Calendar({ sections, selectedSectionId: hoveredSectionId
                             opacity={!isSectionHovered || isThisSectionHovered ? 1 : 0.2}>
                             <rect
                                 {...strokeProps}
-                                {...(
-                                    isThisSectionHovered
-                                        ? { fill: getPseudoRandomColor(e.id,{ darkness: "5%" }) }
-                                        : {}
-                                )}
+                                fill={getPseudoRandomColor(e.id, { darkness: "5%" })}
                                 strokeWidth={1 / 40}
                                 strokeOpacity={0.5}
                                 fillOpacity={1}
