@@ -2,7 +2,7 @@
 
 # Demo
 
-![](https://github.com/user-attachments/assets/2db96a2e-a1da-4884-b8f2-92961c05e251)
+https://github.com/user-attachments/assets/448cf384-720b-409d-bc2d-242405f4f775
 
 # Contributing
 
