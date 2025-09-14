@@ -119,7 +119,6 @@ export function getPseudoRandomColor(id: Section["id"], opts?: {
 }
 
 export default function Home() {
-  // TODO: Mobile-friendly
   // TODO: Sections should be stored in localStorage
   const [sections, setSections] = useState<Section[]>(TEMPLATE_SECTIONS)
   const [inputData, setInputData] = useState<Section>(EMPTY_SECTION)
