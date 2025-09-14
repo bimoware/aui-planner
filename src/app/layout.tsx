@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.className} dark w-screen max-w-screen h-screen max-h-screen`}>
+      <body className={`${outfit.className} dark`}>
         {children}
       </body>
     </html>

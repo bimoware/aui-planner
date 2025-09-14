@@ -125,10 +125,11 @@ export default function Home() {
   const [inputData, setInputData] = useState<Section>(EMPTY_SECTION)
   const [hoveredSectionId, setHoveredSectionId] = useState<number>()
   return (
-    <div className="w-full h-full flex flex-col gap-5 p-5">
+    <div className="size-full flex flex-col gap-5 p-5">
       <div className="size-full p-3
-    flex gap-5
-    *:h-full *:p-4">
+    flex flex-col md:flex-row gap-5
+    *:w-full md:*:h-full
+    *:p-4">
         <Panel {...{ inputData, setInputData, sections, setSections, selectedSectionId: hoveredSectionId, setSelectedSectionId: setHoveredSectionId }} />
         <Calendar  {...{ sections, setSections, selectedSectionId: hoveredSectionId, setSelectedSectionId: setHoveredSectionId }} />
       </div>

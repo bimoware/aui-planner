@@ -3,13 +3,11 @@ import { SmallCredit } from "./SmallCredit";
 import { AddSectionButton } from "./AddSectionButton";
 import { Title } from "./Title";
 import { SelectedSectionIdGroup, InputDataHookGroup, SectionsHookGroup } from "@/app/page";
-import { IconButton } from "@/components/animate-ui/components/buttons/icon";
-import { ListChevronsDownUp } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/animate-ui/components/animate/tooltip";
 
 export default function Panel({ inputData, setInputData, sections, setSections, selectedSectionId: hoveredSectionId, setSelectedSectionId: setHoveredSectionId }:
     InputDataHookGroup & SectionsHookGroup & SelectedSectionIdGroup) {
-    return <div className="w-2/5 flex flex-col gap-4">
+    return <div className="w-full md:w-2/5
+    flex flex-col gap-4 static md:fixed max-h-[95vh]">
         <Title />
         <div className="flex flex-col gap-4 p-4 overflow-y-auto bg-foreground/3 rounded-3xl">
             <div className="flex justify-center items-center">
