@@ -54,11 +54,13 @@ export function ConfirmButton({ inputData, setInputData, sections, setSections }
     const [errors, setErrors] = useState<string[]>([])
     useEffect(() => { setErrors(getAllErrors()) }, [inputData])
 
-    const button = <PopoverClose disabled={errors.length > 0}
-        className="cursor-pointer
+    const button = <PopoverClose
+        disabled={errors.length > 0}
+        className="cursor-pointer disabled:cursor-not-allowed
         bg-primary text-secondary
         h-full rounded-lg p-1.5
-        duration-100 active:scale-95 hover:scale-110"
+        duration-100 enabled:active:scale-95 enabled:hover:scale-110
+        disabled:opacity-50"
         onClick={(() => {
             if (errors.length) return;
             const newId = Math.max(...sections.map(s => s.id)) + 1
