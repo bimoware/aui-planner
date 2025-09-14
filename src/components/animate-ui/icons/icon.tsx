@@ -56,6 +56,7 @@ interface AnimateIconContextValue {
   animateOnViewMargin?: UseInViewOptions['margin'];
   animateOnViewOnce?: boolean;
   initialOnAnimateEnd?: boolean;
+  persistOnAnimateEnd?: boolean;
   delay?: number;
 }
 
@@ -76,6 +77,7 @@ interface DefaultIconProps<T = string> {
   onAnimateStart?: () => void;
   onAnimateEnd?: () => void;
   initialOnAnimateEnd?: boolean;
+  persistOnAnimateEnd?: boolean;
   delay?: number;
 }
 
@@ -117,6 +119,7 @@ function useAnimateIconContext() {
       animateOnViewMargin: '0px' as UseInViewOptions['margin'],
       animateOnViewOnce: true,
       initialOnAnimateEnd: false,
+      persistOnAnimateEnd: false,
       delay: 0,
     };
   return context;
@@ -208,6 +211,7 @@ function AnimateIcon({
   onAnimateStart,
   onAnimateEnd,
   initialOnAnimateEnd = false,
+  persistOnAnimateEnd = false,
   delay = 0,
   children,
 }: AnimateIconProps) {
@@ -220,6 +224,7 @@ function AnimateIcon({
   const [currentAnimation, setCurrentAnimation] = React.useState<
     string | StaticAnimations
   >(typeof animate === 'string' ? animate : animation);
+  const [status, setStatus] = React.useState<'initial' | 'animate'>('initial');
 
   const delayRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -286,14 +291,23 @@ function AnimateIcon({
   React.useEffect(() => {
     async function run() {
       if (!localAnimate) {
-        controls.start('initial');
+        if (!persistOnAnimateEnd) {
+          controls.start('initial');
+          setStatus('initial');
+        }
         return;
+      }
+
+      if (status !== 'initial' && persistOnAnimateEnd) {
+        controls.set('initial');
+        setStatus('initial');
       }
 
       onAnimateStart?.();
 
       try {
         await controls.start('animate');
+        setStatus('animate');
       } catch {
         return;
       }
@@ -303,6 +317,7 @@ function AnimateIcon({
       if (initialOnAnimateEnd || loop) {
         try {
           controls.set('initial');
+          setStatus('initial');
         } catch {
           return;
         }
@@ -316,15 +331,9 @@ function AnimateIcon({
     }
 
     void run();
-  }, [
-    localAnimate,
-    loop,
-    loopDelay,
-    controls,
-    onAnimateStart,
-    onAnimateEnd,
-    initialOnAnimateEnd,
-  ]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localAnimate, controls]);
 
   const childProps = (
     React.isValidElement(children) ? (children as React.ReactElement).props : {}
