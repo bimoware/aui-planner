@@ -1,4 +1,4 @@
-import { getPseudoRandomColor, SelectedSectionIdGroup, Section, SectionsHookGroup, WEEKDAYNAMES } from "@/app/page";
+import { getPseudoRandomColor, SelectedSectionIdGroup, Section, SectionsHookGroup, WEEKDAYNAMES, WeekDay, WEEKDAYS } from "@/app/page";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/animate-ui/components/radix/accordion";
 import { ChevronLeftRight } from "@/components/animate-ui/icons/chevron-left-right";
 import { Clock } from "@/components/animate-ui/icons/clock";
@@ -7,7 +7,7 @@ import { MapPin } from "@/components/animate-ui/icons/map-pin";
 import { UserRound } from "@/components/animate-ui/icons/user-round";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger } from "@/components/ui/context-menu";
 import { Download, Pencil, Tally5, TextInitial, Trash } from "lucide-react";
-
+import { createEvent, createEvents } from 'ics'
 
 function copyText(section: Section) {
     const text = Object.keys(section)
@@ -24,6 +24,46 @@ function copyJSON(section: Section) {
         JSON.stringify(sectionCopy)
     )
 }
+
+function formatStart(s: Section) {
+    const date = new Date()
+    const DOW_MAP: Record<WeekDay, number> = { M: 1, T: 2, W: 3, R: 4, F: 5 }
+
+    // find next occurrence in this week (or today if today is in s.days lol)
+    const today = date.getDay() || 7
+    const offsets = s.days
+        .map(d => (DOW_MAP[d] - today + 7) % 7)
+        .filter(o => o >= 0)
+    const diff = Math.min(...offsets)
+
+    date.setDate(date.getDate() + diff)
+    const [hour, minute] = s.start.split(":").map(Number)
+    date.setHours(hour, minute, 0, 0)
+
+    return [date.getFullYear(), date.getMonth() + 1, date.getDate(), hour, minute] as [number, number, number, number, number]
+}
+
+function formatDuration(s: Section) {
+    const [startH, startM, endH, endM] = [...s.start.split(':'), ...s.end.split(':')].map(Number)
+    let hours = endH - startH
+    let minutes = endM - startM
+    if (minutes < 0) {
+        hours -= 1
+        minutes += 60
+    }
+    return { hours, minutes }
+}
+
+function downloadICS(content: string, filename: string) {
+  const blob = new Blob([content], { type: "text/calendar;charset=utf-8" })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement("a")
+  a.href = url
+  a.download = filename
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
 
 //TODO: Add tags (being able to create tags, color them, have icons on them, select them when creating a section, while making it still minimal)
 export function SectionList({ sections, setSections, selectedSectionId, setSelectedSectionId }: SectionsHookGroup & SelectedSectionIdGroup) {
@@ -94,10 +134,23 @@ export function SectionList({ sections, setSections, selectedSectionId, setSelec
             </ContextMenuItem>
             <ContextMenuSub>
                 <ContextMenuSubTrigger className="gap-2">
-                    <Download /> Export as file
+                    <Download /> Export as
                 </ContextMenuSubTrigger>
                 <ContextMenuSubContent>
-                    <ContextMenuItem>
+                    <ContextMenuItem onClick={() => downloadICS(createEvent({
+                        start: formatStart(s),
+                        startInputType: "local",
+                        startOutputType: "local",
+                        duration: formatDuration(s),
+                        title: `${s.code} | ${s.name}`,
+                        location: `${s.location} by ${s.professor}`,
+                        description: s.notes,
+                        recurrenceRule: "FREQ=WEEKLY;BYDAY=" + s.days.map(d => (
+                            ({ M: "MO", T: "TU", W: "WE", R: "TH", F: "FR" } as const)[d]
+                        )).join(",")
+                    }).value!,
+                        s.code.toLowerCase().replaceAll(' ', '_')
+                    )}>
                         Google Calendar/ICalendar (.ics)
                     </ContextMenuItem>
                 </ContextMenuSubContent>
