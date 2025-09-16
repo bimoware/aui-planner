@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { WeekDaysInputs } from "./WeekDaysInputs";
 import { TimeInputs } from "./TimeInputs";
 import { ExtraSeparator } from "./ExtraSeparator";
-import { InputDataHookGroup, SectionsHookGroup } from "@/app/page";
+import { InputDataHookGroup, SectionsHookGroup } from "@/lib";
 
 export function AddSectionButton({ inputData, setInputData, sections, setSections }: InputDataHookGroup & SectionsHookGroup) {
     return <Popover>

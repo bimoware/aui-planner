@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react"
-import { Button } from "@/components/animate-ui/components/buttons/button"
-import { EMPTY_SECTION } from "@/app/page"
 import { ArrowRight } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/animate-ui/components/animate/tooltip"
-import { InputDataHookGroup, SectionsHookGroup } from "@/app/page"
 import { PopoverClose } from "@/components/animate-ui/primitives/radix/popover"
+import { EMPTY_SECTION, InputDataHookGroup, SectionsHookGroup } from "@/lib"
 
 export function ConfirmButton({ inputData, setInputData, sections, setSections }: InputDataHookGroup & SectionsHookGroup) {
 

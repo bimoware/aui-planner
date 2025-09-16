@@ -1,4 +1,4 @@
-import { getPseudoRandomColor, SelectedSectionIdGroup, Section, SectionsHookGroup, WEEKDAYNAMES, WeekDay, WEEKDAYS } from "@/app/page";
+import { getPseudoRandomColor, Section, SectionsHookGroup, SelectedSectionIdsGroup, WeekDay, WEEKDAYNAMES } from "@/lib";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/animate-ui/components/radix/accordion";
 import { ChevronLeftRight } from "@/components/animate-ui/icons/chevron-left-right";
 import { Clock } from "@/components/animate-ui/icons/clock";
@@ -7,7 +7,7 @@ import { MapPin } from "@/components/animate-ui/icons/map-pin";
 import { UserRound } from "@/components/animate-ui/icons/user-round";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger } from "@/components/ui/context-menu";
 import { Download, Pencil, Tally5, TextInitial, Trash } from "lucide-react";
-import { createEvent, createEvents } from 'ics'
+import { createEvent } from 'ics'
 
 function copyText(section: Section) {
     const text = Object.keys(section)
@@ -55,29 +55,26 @@ function formatDuration(s: Section) {
 }
 
 function downloadICS(content: string, filename: string) {
-  const blob = new Blob([content], { type: "text/calendar;charset=utf-8" })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement("a")
-  a.href = url
-  a.download = filename
-  a.click()
-  URL.revokeObjectURL(url)
+    const blob = new Blob([content], { type: "text/calendar;charset=utf-8" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = filename
+    a.click()
+    URL.revokeObjectURL(url)
 }
 
 
 //TODO: Add tags (being able to create tags, color them, have icons on them, select them when creating a section, while making it still minimal)
-export function SectionList({ sections, setSections, selectedSectionId, setSelectedSectionId }: SectionsHookGroup & SelectedSectionIdGroup) {
+export function SectionList({ sections, setSections, setSelectedSectionIds }: SectionsHookGroup & SelectedSectionIdsGroup) {
     return sections.map(s => <ContextMenu key={s.id}>
-        <ContextMenuTrigger
-            className="p-1"
-            onClick={() => setSelectedSectionId(prev => typeof (prev) === "number" && prev === s.id ? undefined : s.id)}
-        >
+        <ContextMenuTrigger className="p-1">
             <Accordion type="multiple">
                 <AccordionItem value={s.code}
-                    className="rounded-lg text-nowrap space-x-2 items-center space-y-2
-                duration-150 border"
+                    className="rounded-lg text-nowrap space-x-2 space-y-2
+                    duration-150 border"
                     style={{ backgroundColor: getPseudoRandomColor(s.id, { darkness: "5%" }) }}
-                >
+                    >
                     <AccordionTrigger className="py-0.5 p-2">
                         <div className="inline-flex gap-1 items-center">
                             <div className="inline-flex items-center">

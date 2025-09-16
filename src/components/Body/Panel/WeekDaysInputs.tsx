@@ -1,7 +1,6 @@
-import { WeekDay, WEEKDAYNAMES, WEEKDAYS } from "@/app/page"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/animate-ui/components/animate/tooltip"
 import { Toggle } from "@/components/animate-ui/components/radix/toggle"
-import { InputDataHookGroup } from "@/app/page"
+import { InputDataHookGroup, WeekDay, WEEKDAYNAMES, WEEKDAYS } from "@/lib"
 
 export function WeekDaysInputs({ inputData, setInputData }: InputDataHookGroup) {
 

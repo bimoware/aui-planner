@@ -1,9 +1,11 @@
 import { Input } from "@/components/ui/input"
 import { ConfirmButton } from "./ConfirmButton"
-import { InputDataHookGroup, SectionsHookGroup } from "@/app/page"
-import { PopoverClose } from "@/components/animate-ui/primitives/radix/popover"
+import { InputDataHookGroup, SectionsHookGroup } from "@/lib"
 
-export function TimeInputs({ inputData, setInputData, sections, setSections }: InputDataHookGroup & SectionsHookGroup) {
+export function TimeInputs({
+    inputData, setInputData, sections, setSections
+}: InputDataHookGroup & SectionsHookGroup) {
+
     const cleanTime = (time: string) => time
         .replaceAll('/', ':')
         .replaceAll(' ', ':')

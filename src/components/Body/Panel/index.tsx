@@ -2,10 +2,11 @@ import { SectionList } from "./SectionList";
 import { SmallCredit } from "./SmallCredit";
 import { AddSectionButton } from "./AddSectionButton";
 import { Title } from "./Title";
-import { SelectedSectionIdGroup, InputDataHookGroup, SectionsHookGroup } from "@/app/page";
+import { InputDataHookGroup, SectionsHookGroup, SelectedSectionIdsGroup } from "@/lib";
 
-export default function Panel({ inputData, setInputData, sections, setSections, selectedSectionId: hoveredSectionId, setSelectedSectionId: setHoveredSectionId }:
-    InputDataHookGroup & SectionsHookGroup & SelectedSectionIdGroup) {
+export default function Panel({
+    inputData, setInputData, sections, setSections, selectedSectionIds, setSelectedSectionIds
+}: InputDataHookGroup & SectionsHookGroup & SelectedSectionIdsGroup) {
     return <div className="w-full md:w-2/5
     flex flex-col gap-4 static md:fixed max-h-[95vh]">
         <Title />
@@ -15,7 +16,7 @@ export default function Panel({ inputData, setInputData, sections, setSections, 
             </div>
             {/* TODO: Add "Import" & "Export" as txt or .icl (google calendar & icalendar)  */}
             <div className="flex flex-col">
-                <SectionList {...{ sections, setSections, selectedSectionId: hoveredSectionId, setSelectedSectionId: setHoveredSectionId }} />
+                <SectionList {...{ sections, setSections, selectedSectionIds, setSelectedSectionIds }} />
             </div>
         </div>
         <SmallCredit />

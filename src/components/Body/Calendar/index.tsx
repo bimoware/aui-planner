@@ -1,45 +1,17 @@
-import { getPseudoRandomColor, SelectedSectionIdGroup, SectionsHookGroup } from "@/app/page";
-import { Meeting } from "@/app/page";
+import { getPseudoRandomColor, Meeting, SectionsHookGroup, SelectedSectionIdsGroup } from "@/lib";
+import { columnWidth, getCoor, getMiddlePoints, leftPadding, padding, rowHeight, strokeProps, textProps } from "./util";
 
-const padding = 0.3
-const leftPadding = 0.3
-const columnWidth = 1.5
-const rowHeight = 0.8
-
-export function getMiddlePoints(start: number, end: number, n: number) {
-    const step = (end - start) / (n + 1);
-    return Array.from({ length: n }, (_, i) => start + step * (i + 1));
-}
-
-export default function Calendar({ sections, selectedSectionId: hoveredSectionId }: SectionsHookGroup & SelectedSectionIdGroup) {
+export default function Calendar({ sections, selectedSectionIds }: SectionsHookGroup & SelectedSectionIdsGroup) {
 
     if (!sections.length) return <div className="flex items-center justify-center w-full h-full">
         Start by adding a section
     </div>
+
     const minStartH = Math.min(...sections.map(s => s.start.split(':')[0]).map(Number)) - 1
     const maxEndH = Math.max(...sections.map(s => s.end.split(':')[0]).map(Number)) + 1
 
     const width = padding + leftPadding + columnWidth * 5 + padding
     const height = padding + rowHeight * (maxEndH - minStartH) + padding
-
-
-    const strokeProps = {
-        stroke: "white",
-        strokeWidth: 0.1,
-        strokeLinecap: "round" as const
-    } as const
-
-    const textProps = {
-        fill: "white",
-        textAnchor: "middle",
-        alignmentBaseline: "middle",
-        fontSize: 0.15,
-        fontWeight: "800",
-    } as const
-
-    function getCoor(x: number, y: number) {
-        return { x: padding + leftPadding + x * columnWidth, y: padding + y * rowHeight }
-    }
 
     const meetings: Meeting[] = []
     for (const item of sections) {
@@ -48,7 +20,7 @@ export default function Calendar({ sections, selectedSectionId: hoveredSectionId
         }
     }
 
-    const isSectionHovered = hoveredSectionId != undefined
+    const isSectionHovered = selectedSectionIds.length
 
     return <div className="w-full flex">
         <div className="hidden md:block md:w-2/5"></div>
@@ -127,7 +99,7 @@ export default function Calendar({ sections, selectedSectionId: hoveredSectionId
                 {
                     // The actual elements (the rectangles with text)
                     meetings.map((e, i) => {
-                        const isThisSectionHovered = isSectionHovered && hoveredSectionId === e.id
+                        const isThisSectionHovered = isSectionHovered && selectedSectionIds.includes(e.id)
                         const dayIndex = "MTWRF".indexOf(e.day)
                         if (dayIndex === -1) return null;
                         const { x } = getCoor(dayIndex, 0)
