@@ -19,6 +19,7 @@
     "@tabler/icons-react": "^3.34.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "ics": "^3.8.1",
     "lucide-react": "^0.544.0",
     "motion": "^12.23.12",
     "next": "15.5.3",
