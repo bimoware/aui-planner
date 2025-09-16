@@ -1,5 +1,4 @@
-import { LoaderCircle } from "@/components/animate-ui/icons/loader-circle";
-import CalendarIcon from "../../icons/CalendarIcon";
+import CalendarIcon from "./CalendarIcon";
 import { CctvIcon } from "@/components/animate-ui/icons/cctv";
 
 export function Title() {
