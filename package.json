@@ -1,6 +1,7 @@
 {
   "name": "aui-planner",
   "version": "1.0.1",
+  "description": "Powerful calendar maker for AUI Students looking to spot possible overlaps, try out different section combinations, or simply visualize a possible schedule. Also allows for exporting to Google Calendar & iCalendar (.ics)",
   "private": false,
   "repository": {
     "url": "https://github.com/bimoware/aui-planner"

@@ -9,7 +9,7 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   title: "Malik's AUI Planner",
-  description: "Powerful calendar maker for AUI Students looking to spot possible overlaps, try out different section combinations, or simply visualize a possible schedule. Also allows for exporting to Google Calendar",
+  description: "Powerful calendar maker for AUI Students looking to spot possible overlaps, try out different section combinations, or simply visualize a possible schedule. Also allows for exporting to Google Calendar & iCalendar (.ics)",
   openGraph: {
     images: "/calendar.png"
   }
