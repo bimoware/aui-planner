@@ -113,7 +113,10 @@ export default function Calendar({ sectionStore }: SectionStoreProp) {
                             opacity={!isASectionSelected || isThisSectionSelected ? 1 : 0.2}>
                             <rect
                                 {...strokeProps}
-                                fill={getPseudoRandomColor(e.code, { darkness: "5%" })}
+                                fill={getPseudoRandomColor(e.code, {
+                                    darkness: "5%",
+                                    opacity: "95%"
+                                })}
                                 strokeWidth={1 / 40}
                                 strokeOpacity={0.5}
                                 fillOpacity={1}
