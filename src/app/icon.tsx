@@ -1,4 +1,4 @@
-import CalendarIcon from '@/components/Body/Panel/CalendarIcon'
+import CalendarIcon from '@/cpn/Panel/CalendarIcon'
 import { ImageResponse } from 'next/og'
 
 export const size = {

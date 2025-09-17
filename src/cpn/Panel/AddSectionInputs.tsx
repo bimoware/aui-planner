@@ -1,10 +1,57 @@
+import AddSectionInput from "./AddSectionInput";
+import { WeekDaysInputs } from "./WeekDaysInputs";
 import { useEffect, useState } from "react"
 import { ArrowRight } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/animate-ui/components/animate/tooltip"
 import { PopoverClose } from "@/components/animate-ui/primitives/radix/popover"
-import { EMPTY_SECTION, InputDataHookGroup, SectionsHookGroup } from "@/lib"
+import { SectionStoreProp } from "@/lib";
+import { Separator } from "@radix-ui/react-separator";
 
-export function ConfirmButton({ inputData, setInputData, sections, setSections }: InputDataHookGroup & SectionsHookGroup) {
+export default function AddSectionInputs({ sectionStore }: SectionStoreProp) {
+
+    const cleanTime = (time: string) => time
+        .replaceAll('/', ':')
+        .replaceAll(' ', ':')
+        .replaceAll('-', '')
+
+    return <>
+        <AddSectionInput {...{ sectionStore }} id="code" placeholder="Code (i.e CSC 1401)"
+            clean={v => v.toUpperCase()} />
+        <WeekDaysInputs {...{ sectionStore }} />
+        <div className="flex gap-3 items-center">
+            {
+                (["start", "end"] as const)
+                    .map(id => <AddSectionInput
+                        key={id}
+                        {...{ id, sectionStore }}
+                        placeholder={`${id[0].toUpperCase()}${id.slice(1)} XX:XX`}
+                        clean={cleanTime}
+                    />)
+            }
+            <ConfirmButton {...{ sectionStore }} />
+        </div>
+
+        <ExtraSeparator />
+
+        <AddSectionInput {...{ sectionStore }} id="name"
+            placeholder="Name (i.e Data Structures)" />
+        <div className="flex gap-3">
+            <AddSectionInput {...{ sectionStore }} id="professor" className="w-2/3" />
+            <AddSectionInput {...{ sectionStore }} id="location" className="w-1/3" />
+        </div>
+        <AddSectionInput {...{ sectionStore }} id="notes" />
+    </>
+}
+
+function ExtraSeparator() {
+    return <div className="flex items-center gap-3 mt-2">
+        <Separator className="outline-white/50 w-full outline-1 rounded-full"/>
+        <span className="opacity-50 text-nowrap">Extra</span>
+        <Separator className="outline-white/50 w-full outline-1 rounded-full" />
+    </div>;
+}
+
+export function ConfirmButton({ sectionStore: { inputData, sections, addSection, clearInputData } }: SectionStoreProp) {
 
     const getTimeErrors = () => {
         const startErrors = []
@@ -52,6 +99,7 @@ export function ConfirmButton({ inputData, setInputData, sections, setSections }
     const [errors, setErrors] = useState<string[]>([])
     useEffect(() => { setErrors(getAllErrors()) }, [inputData])
 
+    // TODO: popover opens an empty text instead of nothing, errors not updated 
     const button = <PopoverClose
         disabled={errors.length > 0}
         className="cursor-pointer disabled:cursor-not-allowed
@@ -61,10 +109,8 @@ export function ConfirmButton({ inputData, setInputData, sections, setSections }
         disabled:opacity-50"
         onClick={(() => {
             if (errors.length) return;
-            const newId = Math.max(...sections.map(s => s.id)) + 1
-            const newInputData = { ...inputData, id: newId }
-            setSections(prev => ([...prev, newInputData]))
-            setInputData(EMPTY_SECTION)
+            addSection(inputData)
+            clearInputData()
         })}>
         <ArrowRight />
     </PopoverClose>;

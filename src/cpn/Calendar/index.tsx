@@ -1,26 +1,24 @@
-import { getPseudoRandomColor, Meeting, SectionsHookGroup, SelectedSectionIdsGroup } from "@/lib";
+import { getPseudoRandomColor, Meeting, SectionStoreProp } from "@/lib";
 import { columnWidth, getCoor, getMiddlePoints, leftPadding, padding, rowHeight, strokeProps, textProps } from "./util";
 
-export default function Calendar({ sections, selectedSectionIds }: SectionsHookGroup & SelectedSectionIdsGroup) {
+export default function Calendar({ sectionStore }: SectionStoreProp) {
 
-    if (!sections.length) return <div className="flex items-center justify-center w-full h-full">
-        Start by adding a section
-    </div>
+    if (!sectionStore.sections.length) return
 
-    const minStartH = Math.min(...sections.map(s => s.start.split(':')[0]).map(Number)) - 1
-    const maxEndH = Math.max(...sections.map(s => s.end.split(':')[0]).map(Number)) + 1
+    const minStartH = Math.min(...sectionStore.sections.map(s => s.start.split(':')[0]).map(Number)) - 1
+    const maxEndH = Math.max(...sectionStore.sections.map(s => s.end.split(':')[0]).map(Number)) + 1
 
     const width = padding + leftPadding + columnWidth * 5 + padding
     const height = padding + rowHeight * (maxEndH - minStartH) + padding
 
     const meetings: Meeting[] = []
-    for (const item of sections) {
+    for (const item of sectionStore.sections) {
         for (const day of item.days) {
             meetings.push({ ...item, day })
         }
     }
 
-    const isSectionHovered = selectedSectionIds.length
+    const isASectionSelected = sectionStore.selectedSectionCodes.length
 
     return <div className="w-full flex">
         <div className="hidden md:block md:w-2/5"></div>
@@ -99,7 +97,7 @@ export default function Calendar({ sections, selectedSectionIds }: SectionsHookG
                 {
                     // The actual elements (the rectangles with text)
                     meetings.map((e, i) => {
-                        const isThisSectionHovered = isSectionHovered && selectedSectionIds.includes(e.id)
+                        const isThisSectionSelected = isASectionSelected && sectionStore.selectedSectionCodes.includes(e.code)
                         const dayIndex = "MTWRF".indexOf(e.day)
                         if (dayIndex === -1) return null;
                         const { x } = getCoor(dayIndex, 0)
@@ -112,10 +110,10 @@ export default function Calendar({ sections, selectedSectionIds }: SectionsHookG
                         const y = yStart
                         const elemHeight = yEnd - yStart
                         return <g key={i}
-                            opacity={!isSectionHovered || isThisSectionHovered ? 1 : 0.2}>
+                            opacity={!isASectionSelected || isThisSectionSelected ? 1 : 0.2}>
                             <rect
                                 {...strokeProps}
-                                fill={getPseudoRandomColor(e.id, { darkness: "5%" })}
+                                fill={getPseudoRandomColor(e.code, { darkness: "5%" })}
                                 strokeWidth={1 / 40}
                                 strokeOpacity={0.5}
                                 fillOpacity={1}

@@ -1,16 +1,17 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/animate-ui/components/animate/tooltip"
 import { Toggle } from "@/components/animate-ui/components/radix/toggle"
-import { InputDataHookGroup, WeekDay, WEEKDAYNAMES, WEEKDAYS } from "@/lib"
+import { InputDataHookGroup, SectionStoreProp, WeekDay, WEEKDAYNAMES, WEEKDAYS } from "@/lib"
 
-export function WeekDaysInputs({ inputData, setInputData }: InputDataHookGroup) {
+export function WeekDaysInputs({ sectionStore: { inputData, setInputData } }: SectionStoreProp) {
 
     const toggleDay = (dayId: WeekDay) => {
-        setInputData(v => ({
-            ...v,
-            days: v.days.includes(dayId)
-                ? v.days.filter(d => d !== dayId)
-                : [...v.days, dayId]
-        }))
+        const { days } = inputData
+        setInputData({
+            ...inputData,
+            days: days.includes(dayId)
+                ? days.filter(d => d !== dayId)
+                : [...days, dayId]
+        })
     }
 
     return <div className="flex gap-2 items-center justify-around">
