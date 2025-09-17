@@ -6,7 +6,11 @@ import { Clock } from "@/components/animate-ui/icons/clock";
 import { UserRound } from "@/components/animate-ui/icons/user-round";
 import { MapPin } from "@/components/animate-ui/icons/map-pin";
 
-//TODO: Add tags (being able to create tags, color them, have icons on them, select them when creating a section, while making it still minimal)
+// TODO: Add option to edit message
+// TODO: Make selection useful (clear all) 
+// TODO: Have history of courses
+// TODO: Import courses from .ics or JSON or AddnDrop copy/paste
+// TODO: Add tags (being able to create tags, color them, have icons on them, select them when creating a section, while making it still minimal)
 export function SectionList({ sectionStore }: SectionStoreProp) {
     return sectionStore.sections.map(section => <ContextMenuWrapper
         key={section.code}
