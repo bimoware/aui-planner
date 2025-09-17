@@ -1,6 +1,6 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/animate-ui/components/animate/tooltip"
 import { Toggle } from "@/components/animate-ui/components/radix/toggle"
-import { InputDataHookGroup, SectionStoreProp, WeekDay, WEEKDAYNAMES, WEEKDAYS } from "@/lib"
+import { SectionStoreProp, WeekDay, WEEKDAYNAMES, WEEKDAYS } from "@/lib"
 
 export function WeekDaysInputs({ sectionStore: { inputData, setInputData } }: SectionStoreProp) {
 
